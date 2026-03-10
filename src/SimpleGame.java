@@ -31,18 +31,18 @@ public class SimpleGame implements ApplicationListener {
 
     @Override
     public void create() {
-        backgroundTexture = new Texture("assets/background.png");
-        bucketTexture = new Texture("assets/bucket.png");
-        dropTexture = new Texture("assets/drop.png");
+        backgroundTexture = new Texture("assets/restaurant.jpg");
+        bucketTexture = new Texture("assets/download-removebg-preview.png");
+        dropTexture = new Texture("assets/burger.png");
         
-        dropSound = Gdx.audio.newSound(Gdx.files.internal("assets/drop.mp3"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/music.mp3"));
+        dropSound = Gdx.audio.newSound(Gdx.files.internal("assets/tf2-heavy-om-nom-nom-sound-effect.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/157709__john-sipos__restaurant-sounds.mp3"));
         
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
         
         bucketSprite = new Sprite(bucketTexture);
-        bucketSprite.setSize(1, 1);
+        bucketSprite.setSize(2, 2);
         
         touchPos = new Vector2();
         
@@ -69,7 +69,7 @@ public class SimpleGame implements ApplicationListener {
     }
 
     private void input() {
-        float speed = 4f;
+        float speed = .5f;
         float delta = Gdx.graphics.getDeltaTime();
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -85,6 +85,7 @@ public class SimpleGame implements ApplicationListener {
         }
     }
 
+    private int score = 0;
     private void logic() {
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
@@ -108,11 +109,13 @@ public class SimpleGame implements ApplicationListener {
             else if (bucketRectangle.overlaps(dropRectangle)) {
                 dropSprites.remove(i);
                 dropSound.play();
+                score++;
+                System.out.println(score);
             }
         }
 
         dropTimer += delta;
-        if (dropTimer > 1f) {
+        if (dropTimer > .1f) {
             dropTimer = 0;
             createDroplet();
         }
